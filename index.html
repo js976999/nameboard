@@ -8,12 +8,12 @@
 </head>
 <body>
   <div class="form-container">
+    <div id="form-messages"></div>
     <input type="text" id="nameInput" placeholder="Enter Name" />
-    <input type="text" id="flightInput" placeholder="Enter Flight" />
+    <input type="text" id="flightInput" placeholder="Enter Flight (optional)" />
     <select id="logoSelect">
       <option value="marquee_logo.png">Marquee Logo</option>
       <option value="blacklane_logo.png">Blacklane Logo</option>
-      <!-- Add more logo/background options here if required -->
     </select>
     <button id="showBtn">Show Nameboard</button>
   </div>
@@ -23,7 +23,8 @@
       <span id="displayName"></span>
       <span id="displayFlight"></span>
     </div>
-    <button id="exitBtn">Exit Full Screen</button>
+    <div id="displayMessage"></div>
+    <button id="backBtn">Back</button>
   </div>
   <script src="script.js"></script>
 </body>
