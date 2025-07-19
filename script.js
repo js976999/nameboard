@@ -1,129 +1,43 @@
-function goFullScreen() {
-  const element = document.documentElement;
-  if (element.requestFullscreen) element.requestFullscreen();
-  else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
-  else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
-  else if (element.msRequestFullscreen) element.msRequestFullscreen();
-}
+// Get references to DOM elements
+const nameInput = document.getElementById("nameInput");
+const flightInput = document.getElementById("flightInput");
+const logoSelect = document.getElementById("logoSelect");
+const showBtn = document.getElementById("showBtn");
+const nameboard = document.getElementById("nameboard");
+const displayName = document.getElementById("displayName");
+const displayFlight = document.getElementById("displayFlight");
+const logoBackground = document.getElementById("logoBackground");
+const exitBtn = document.getElementById("exitBtn");
+const formContainer = document.querySelector(".form-container");
 
-// Reliable mobile viewport fix for Android/Chrome browsers
-function setNameboardHeight() {
-  var nameboard = document.getElementById('nameboard-container');
-  if (window.CSS && CSS.supports("height", "100dvh")) {
-    nameboard.style.height = "100dvh";
-  } else {
-    nameboard.style.height = window.innerHeight + 'px';
+// Default to Marquee Logo if nothing is selected
+logoSelect.value = "marquee_logo.png";
+
+showBtn.addEventListener("click", function () {
+  const name = nameInput.value.trim();
+  const flight = flightInput.value.trim();
+  const logo = logoSelect.value;
+
+  // Simple validation
+  if (!name || !flight) {
+    alert("Please enter both Name and Flight details.");
+    return;
   }
-}
-window.addEventListener('resize', setNameboardHeight);
 
-function exitFullScreen() {
-  if (document.exitFullscreen) document.exitFullscreen();
-  else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-  else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-  else if (document.msExitFullscreen) document.msExitFullscreen();
-}
-function handleFullscreenChange() {
-  var exitBtn = document.getElementById('exitFullscreenBtn');
-  if (exitBtn) {
-    if (
-      document.fullscreenElement ||
-      document.webkitFullscreenElement ||
-      document.mozFullScreenElement ||
-      document.msFullscreenElement
-    ) {
-      exitBtn.style.display = 'block';
-    } else {
-      exitBtn.style.display = 'none';
-    }
-  }
-}
+  displayName.textContent = name;
+  displayFlight.textContent = flight;
 
-document.addEventListener('DOMContentLoaded', function() {
-  var showBtn = document.getElementById('showNameboardBtn');
-  var exitBtn = document.getElementById('exitFullscreenBtn');
-  var form = document.getElementById('input-form');
-  var nameboard = document.getElementById('nameboard-container');
-  var nameInput = document.getElementById('nameInput');
-  var infoInput = document.getElementById('infoInput');
-  var nameDisplay = document.getElementById('nameDisplay');
-  var infoDisplay = document.getElementById('infoDisplay');
-  var logoSelect = document.getElementById('logoSelect');
+  // Set background image
+  logoBackground.style.backgroundImage = `url('Images/${logo}')`;
+  logoBackground.style.backgroundSize = "contain";
+  logoBackground.style.backgroundRepeat = "no-repeat";
+  logoBackground.style.backgroundPosition = "center";
 
-  setNameboardHeight(); // set initial height
+  formContainer.classList.add("hidden");
+  nameboard.classList.remove("hidden");
+});
 
-  showBtn.addEventListener('click', function () {
-    nameDisplay.textContent = nameInput.value;
-    infoDisplay.textContent = infoInput.value;
-    var selectedLogo = logoSelect.value;
-
-    // Set background image
-    if (selectedLogo !== "none") {
-      nameboard.style.backgroundImage = 'url(' + selectedLogo + ')';
-      nameboard.style.backgroundSize = 'cover';
-      nameboard.style.backgroundPosition = 'center';
-      nameboard.style.backgroundRepeat = 'no-repeat';
-    } else {
-      nameboard.style.backgroundImage = '';
-      nameboard.style.backgroundColor = '#fff';
-    }
-
-    // Set text color based on background logo
-    let blackLogos = [
-      "Images/marquee_logo.png",
-      "Images/blacklane_logo.png",
-      "Images/royale_logo.png",
-      "Images/dakota_logo.png",
-      "Images/black_blank_logo.png"
-    ];
-    let whiteLogos = [
-      "Images/firstlight_logo.png",
-      "Images/tbr_logo.png",
-      "Images/viator_logo.png",
-      "Images/white_blank_logo.png"
-    ];
-    if (blackLogos.includes(selectedLogo)) {
-      nameDisplay.style.color = "#fff";
-      infoDisplay.style.color = "#fff";
-    } else if (whiteLogos.includes(selectedLogo)) {
-      nameDisplay.style.color = "#000";
-      infoDisplay.style.color = "#000";
-    } else {
-      nameDisplay.style.color = "#000";
-      infoDisplay.style.color = "#000";
-    }
-
-    // Hide form, show nameboard
-    form.style.display = 'none';
-    nameboard.style.display = 'flex';
-    setNameboardHeight();
-    goFullScreen();
-  });
-
-  exitBtn.addEventListener('click', function () {
-    exitFullScreen();
-  });
-
-  document.addEventListener('fullscreenchange', handleFullscreenChange);
-  document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-  document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-  document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-  // Clicking nameboard returns to form if not in fullscreen
-  nameboard.addEventListener('click', function () {
-    if (
-      !document.fullscreenElement &&
-      !document.webkitFullscreenElement &&
-      !document.mozFullScreenElement &&
-      !document.msFullscreenElement
-    ) {
-      nameboard.style.display = 'none';
-      form.style.display = 'block';
-      nameboard.style.backgroundImage = '';
-      nameboard.style.backgroundColor = '#fff';
-      nameDisplay.style.color = "#000";
-      infoDisplay.style.color = "#000";
-      setNameboardHeight();
-    }
-  });
+exitBtn.addEventListener("click", function () {
+  nameboard.classList.add("hidden");
+  formContainer.classList.remove("hidden");
 });
