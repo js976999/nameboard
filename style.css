@@ -7,7 +7,7 @@ body {
 
 .form-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   gap: 1rem;
   min-height: 40vh;
@@ -19,6 +19,7 @@ input, select {
   font-size: 1.1rem;
   border-radius: 5px;
   border: 1px solid #999;
+  margin-bottom: 0.5rem;
 }
 
 button {
@@ -30,10 +31,23 @@ button {
   color: #fff;
   cursor: pointer;
   margin-left: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 button:hover {
   background: #555;
+}
+
+#error, .error {
+  color: #d00;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.success {
+  color: #018d22;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 #nameboard {
@@ -67,6 +81,11 @@ button:hover {
 
 #displayFlight {
   color: #333;
+}
+
+#displayMessage {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .hidden {
