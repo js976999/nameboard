@@ -1,4 +1,3 @@
-// Get references to DOM elements
 const nameInput = document.getElementById("nameInput");
 const flightInput = document.getElementById("flightInput");
 const logoSelect = document.getElementById("logoSelect");
@@ -9,30 +8,33 @@ const displayFlight = document.getElementById("displayFlight");
 const logoBackground = document.getElementById("logoBackground");
 const backBtn = document.getElementById("backBtn");
 const formContainer = document.querySelector(".form-container");
+const formMessages = document.getElementById("form-messages");
+const displayMessage = document.getElementById("displayMessage");
 
-// Default to Marquee Logo if nothing is selected
 logoSelect.value = "marquee_logo.png";
 
-// Store last used values to support pre-population
 let lastName = "";
 let lastFlight = "";
 let lastLogo = "marquee_logo.png";
 
 showBtn.addEventListener("click", function () {
+  formMessages.textContent = ""; // Clear previous messages
+  displayMessage.textContent = ""; // Clear previous display messages
   const name = nameInput.value.trim();
   const flight = flightInput.value.trim();
   const logo = logoSelect.value;
 
-  // Simple validation
-  if (!name || !flight) {
-    alert("Please enter both Name and Flight details.");
+  // Validation with user feedback
+  if (!name) {
+    formMessages.textContent = "Please enter a Name.";
+    formMessages.className = "error";
     return;
   }
 
   displayName.textContent = name;
-  displayFlight.textContent = flight;
+  // Only display the flight detail if provided
+  displayFlight.textContent = flight ? flight : "";
 
-  // Set background image
   logoBackground.style.backgroundImage = `url('Images/${logo}')`;
   logoBackground.style.backgroundSize = "contain";
   logoBackground.style.backgroundRepeat = "no-repeat";
@@ -41,17 +43,20 @@ showBtn.addEventListener("click", function () {
   formContainer.classList.add("hidden");
   nameboard.classList.remove("hidden");
 
-  // Store for pre-population
   lastName = name;
   lastFlight = flight;
   lastLogo = logo;
+
+  // Show confirmation message
+  displayMessage.textContent = "Nameboard displayed successfully!";
+  displayMessage.className = "success";
 });
 
 backBtn.addEventListener("click", function () {
   nameboard.classList.add("hidden");
   formContainer.classList.remove("hidden");
-  // Pre-populate the form fields with last values
   nameInput.value = lastName;
   flightInput.value = lastFlight;
   logoSelect.value = lastLogo;
+  formMessages.textContent = "";
 });
