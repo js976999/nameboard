@@ -7,11 +7,16 @@ const nameboard = document.getElementById("nameboard");
 const displayName = document.getElementById("displayName");
 const displayFlight = document.getElementById("displayFlight");
 const logoBackground = document.getElementById("logoBackground");
-const exitBtn = document.getElementById("exitBtn");
+const backBtn = document.getElementById("backBtn");
 const formContainer = document.querySelector(".form-container");
 
 // Default to Marquee Logo if nothing is selected
 logoSelect.value = "marquee_logo.png";
+
+// Store last used values to support pre-population
+let lastName = "";
+let lastFlight = "";
+let lastLogo = "marquee_logo.png";
 
 showBtn.addEventListener("click", function () {
   const name = nameInput.value.trim();
@@ -35,9 +40,18 @@ showBtn.addEventListener("click", function () {
 
   formContainer.classList.add("hidden");
   nameboard.classList.remove("hidden");
+
+  // Store for pre-population
+  lastName = name;
+  lastFlight = flight;
+  lastLogo = logo;
 });
 
-exitBtn.addEventListener("click", function () {
+backBtn.addEventListener("click", function () {
   nameboard.classList.add("hidden");
   formContainer.classList.remove("hidden");
+  // Pre-populate the form fields with last values
+  nameInput.value = lastName;
+  flightInput.value = lastFlight;
+  logoSelect.value = lastLogo;
 });
