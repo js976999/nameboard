@@ -73,7 +73,7 @@ button:hover {
   display: none;
 }
 
-#exitBtn {
+#backBtn {
   font-size: 1rem;
   background: #666;
   color: #fff;
@@ -83,7 +83,7 @@ button:hover {
   cursor: pointer;
 }
 
-#exitBtn:hover {
+#backBtn:hover {
   background: #444;
 }
 
